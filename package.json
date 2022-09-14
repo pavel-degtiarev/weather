@@ -2,12 +2,13 @@
   "name": "weather",
   "version": "1.0.0",
   "description": "weather cli utility",
-  "type":"module",
+  "type": "module",
   "main": "weather.js",
   "bin": {
     "weather": "node weather.js"
   },
   "scripts": {
+    "exec": "node weather.js"
   },
   "author": "Pavel Degtiarev",
   "license": "ISC"
