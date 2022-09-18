@@ -1,10 +1,10 @@
 import { parseArgs } from "./helpers/args.js";
-import { printHelp } from "./services/log.js";
+import { printError, printHelp, printSuccess } from "./services/log.js";
 import { saveKeyValue } from "./services/storage.js";
 
 const actions = {
-  h: printHelp,
-  t: (value) => saveKeyValue("API_token", value),
+  h: () => printHelp(),
+  t: (value) => saveSetting("API_token", value),
 };
 
 function init() {
@@ -16,3 +16,12 @@ function init() {
 }
 
 init();
+
+async function saveSetting(key, value) {
+  try {
+    await saveKeyValue(key, value);
+    printSuccess(`${key} сохранен.`);
+  } catch (e) {
+    printError(e.message);
+  }
+}
