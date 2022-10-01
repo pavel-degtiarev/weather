@@ -14,3 +14,14 @@ export function parseArgs(args) {
 
   return parsedArgs;
 }
+
+export const SETTINGS = {
+  TOKEN: "API_token",
+  CITY: "city",
+};
+
+export const ARGS = {
+  HELP: "h",
+  CITY: "s",
+  TOKEN: "t",
+};
