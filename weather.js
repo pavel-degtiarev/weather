@@ -1,4 +1,5 @@
 import { ARGS, parseArgs, SETTINGS } from "./helpers/args.js";
+import { printWeatherData } from "./helpers/weatherData.js";
 import { getWeather } from "./services/api.js";
 import { printError, printHelp, printSuccess } from "./services/log.js";
 import { saveKeyValue } from "./services/storage.js";
@@ -25,7 +26,7 @@ async function saveSetting(key, value) {
 
 // ==========================================
 
-async function init() {
+async function main() {
   const args = parseArgs(process.argv);
   const argKeys = Object.keys(args);
 
@@ -33,7 +34,7 @@ async function init() {
   if (argKeys.length === 0) {
     try {
       const data = await getWeather();
-      console.log(data);
+      printWeatherData(data);
 
     } catch (error) {
       switch (error.response?.status) {
@@ -60,4 +61,4 @@ async function init() {
   });
 }
 
-init();
+main();
