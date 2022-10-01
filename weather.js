@@ -9,23 +9,6 @@ const actions = {
   [ARGS.CITY]: (value) => saveSetting(SETTINGS.CITY, value),
 };
 
-async function init() {
-  const args = parseArgs(process.argv);
-  const argKeys = Object.keys(args);
-
-  // если аргументов нет, выводим погоду и выходим
-  if (argKeys.length === 0) {
-    const data = await getWeather();
-    console.log(data);
-    return;
-  }
-
-  // если аргументы есть, сохраняем их
-  argKeys.forEach((key) => {
-    if (key in actions) actions[key](args[key]);
-  });
-}
-
 async function saveSetting(key, value) {
   if (!value.length) {
     printError(`Не передан ${key}`);
@@ -38,6 +21,43 @@ async function saveSetting(key, value) {
   } catch (e) {
     printError(e.message);
   }
+}
+
+// ==========================================
+
+async function init() {
+  const args = parseArgs(process.argv);
+  const argKeys = Object.keys(args);
+
+  // если аргументов нет, выводим погоду и выходим
+  if (argKeys.length === 0) {
+    try {
+      const data = await getWeather();
+      console.log(data);
+
+    } catch (error) {
+      switch (error.response?.status) {
+        case 404:
+          printError("Неверно указан город!");
+          break;
+
+        case 401:
+          printError("Неверно указан токен!");
+          break;
+
+        default:
+          printError(error.message);
+          break;
+      }
+    }
+
+    return;
+  }
+
+  // если аргументы есть, сохраняем их
+  argKeys.forEach((key) => {
+    if (key in actions) actions[key](args[key]);
+  });
 }
 
 init();
