@@ -4,7 +4,13 @@ import { saveKeyValue } from "./services/storage.js";
 
 const actions = {
   h: () => printHelp(),
-  t: (value) => saveSetting("API_token", value),
+  t: (value) => {
+    if (!value.length) {
+      printError("Не передан Token");
+      return;
+    }
+    saveSetting("API_token", value);
+  },
 };
 
 function init() {
@@ -15,8 +21,6 @@ function init() {
   });
 }
 
-init();
-
 async function saveSetting(key, value) {
   try {
     await saveKeyValue(key, value);
@@ -25,3 +29,5 @@ async function saveSetting(key, value) {
     printError(e.message);
   }
 }
+
+init();
