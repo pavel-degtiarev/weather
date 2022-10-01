@@ -3,6 +3,10 @@ import { SETTINGS } from "../helpers/args.js";
 import { printError } from "./log.js";
 import { readKeyValue } from "./storage.js";
 
+/**
+ * 
+ * @returns {} Объект с данными о погоде
+ */
 export async function getWeather() {
   const token = await readKeyValue(SETTINGS.TOKEN);
   if (!token) {
