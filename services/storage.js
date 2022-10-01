@@ -14,7 +14,6 @@ export async function saveKeyValue(key, value) {
 export async function readKeyValue(key) {
   const settings = await readSettingsFile(settingsPath);
   return settings[key];
-return 
 }
 
 async function readSettingsFile(path) {
