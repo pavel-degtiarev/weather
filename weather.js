@@ -1,17 +1,12 @@
-import { parseArgs } from "./helpers/args.js";
+import { ARGS, parseArgs, SETTINGS } from "./helpers/args.js";
 import { getWeather } from "./services/api.js";
 import { printError, printHelp, printSuccess } from "./services/log.js";
 import { saveKeyValue } from "./services/storage.js";
 
 const actions = {
-  h: () => printHelp(),
-  t: (value) => {
-    if (!value.length) {
-      printError("Не передан Token");
-      return;
-    }
-    saveSetting("API_token", value);
-  },
+  [ARGS.HELP]: () => printHelp(),
+  [ARGS.TOKEN]: (value) => saveSetting(SETTINGS.TOKEN, value),
+  [ARGS.CITY]: (value) => saveSetting(SETTINGS.CITY, value),
 };
 
 async function init() {
@@ -24,7 +19,7 @@ async function init() {
     console.log(data);
     return;
   }
-  
+
   // если аргументы есть, сохраняем их
   argKeys.forEach((key) => {
     if (key in actions) actions[key](args[key]);
@@ -32,6 +27,11 @@ async function init() {
 }
 
 async function saveSetting(key, value) {
+  if (!value.length) {
+    printError(`Не передан ${key}`);
+    return;
+  }
+
   try {
     await saveKeyValue(key, value);
     printSuccess(`${key} сохранен.`);
