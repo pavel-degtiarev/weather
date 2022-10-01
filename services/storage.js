@@ -18,7 +18,7 @@ return
 }
 
 async function readSettingsFile(path) {
-  let settings = null;
+  let settings = {};
   if (await isExist(path)) {
     const raw = await promises.readFile(path);
     settings = JSON.parse(raw);
