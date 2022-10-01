@@ -15,8 +15,14 @@ const actions = {
 
 function init() {
   const args = parseArgs(process.argv);
+  const argKeys = Object.keys(args);
 
-  Object.keys(args).forEach((key) => {
+  if (argKeys.length === 0) {
+    // выводим погоду
+    return;
+  }
+  
+  argKeys.forEach((key) => {
     if (key in actions) actions[key](args[key]);
   });
 }
