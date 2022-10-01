@@ -1,6 +1,6 @@
 import axios from "axios";
-import { printError } from "./log";
-import { readKeyValue } from "./storage";
+import { printError } from "./log.js";
+import { readKeyValue } from "./storage.js";
 
 export async function getWeather() {
   const token = await readKeyValue("API_token");
